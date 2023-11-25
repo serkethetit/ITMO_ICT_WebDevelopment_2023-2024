@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Лабораторная работа 2 - Web-labs</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u041b\u0430\u0431\u043e\u0440\u0430\u0442\u043e\u0440\u043d\u0430\u044f \u0440\u0430\u0431\u043e\u0442\u0430 2";
+        var mkdocs_page_input_path = "Lab2.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Web-labs
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Lab1/">Лабораторная работа 1</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Лабораторная работа 2</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#intro">Intro</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#models">models</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#forms">forms</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#views">views</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#urls">urls</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_1">Выводы</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Lab3/">Лабораторная работа 3</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Web-labs</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Лабораторная работа 2</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="2">Лабораторная работа 2</h1>
+<p><strong>РЕАЛИЗАЦИЯ ПРОСТОГО САЙТА СРЕДСТВАМИ DJANGO</strong></p>
+<h2 id="intro">Intro</h2>
+<p><strong>Цель:</strong> овладеть практическими навыками и умениями реализации web-сервисов
+средствами Django 2.2.</p>
+<p><strong>Оборудование:</strong> компьютерный класс.</p>
+<p><strong>Программное обеспечение:</strong> Python 3.6+, Django 3, PostgreSQL *.</p>
+<p><strong>Практическое задание:</strong> Реализовать сайт используя фреймворк Django 3 и СУБД PostgreSQL *, в
+соответствии с вариантом задания лабораторной работы.</p>
+<p><strong>Вариант: 4</strong></p>
+<p><strong>Задание: Список туров туристической фирмы</strong></p>
+<p>Хранится информация о названии тура, турагенстве, описании тура, периоде проведения тура, условиях оплаты.
+Необходимо реализовать следующий функционал:</p>
+<ul>
+<li>Регистрация новых пользователей.</li>
+<li>Просмотр и резервирование туров. Пользователь должен иметь возможность редактирования и удаления своих резервирований.</li>
+<li>Написание отзывов к турам. При добавлении комментариев, должны сохраняться даты тура, текст комментария, рейтинг (1-10), информация о комментаторе.</li>
+<li>Администратор должен иметь возможность подтвердить резервирование тура средствами Django-admin.</li>
+<li>В клиентской части должна формироваться таблица, отображающая все проданные туры по странам.</li>
+</ul>
+<h2 id="models">models</h2>
+<p>В файле models.py у нас 4 модели для реализации основного функционала. </p>
+<pre><code>from django.db import models
+from django.contrib.auth.models import User
+
+class Tour(models.Model):
+    title = models.CharField(max_length=100)
+    agency = models.CharField(max_length=100)
+    description = models.TextField()
+    start_date = models.DateField()
+    end_date = models.DateField()
+    payment_conditions = models.TextField()
+    is_sold = models.BooleanField(default=False)
+</code></pre>
+<p><strong>Tour</strong> – содержит информацию о турах: название, агенство, которое предоставляет услугу, описание тура, даты начала и конца, способ оплаты и статус "продано" или нет;</p>
+<pre><code>class Reservation(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    tour = models.ForeignKey(Tour, on_delete=models.CASCADE)
+</code></pre>
+<p><strong>Reservation</strong> – содержит информацию о пользователе и его резервировании;</p>
+<pre><code>class Review(models.Model):
+    tour = models.ForeignKey(Tour, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    rating = models.PositiveIntegerField()
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Review for {self.tour.name} by {self.user.username}"
+</code></pre>
+<p><strong>Review</strong> – содержит информацию об отзывах: тур, имя пользователя, его оценка и комментарий и дата написания отзыва;</p>
+<pre><code>class Country(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+</code></pre>
+<p><strong>Country</strong> – содержит информацию о стране тура.</p>
+<h2 id="forms">forms</h2>
+<p><strong>Формы для оставления отзывов и бронирования</strong></p>
+<pre><code>from django import forms
+from .models import Review
+from .models import Reservation
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['text', 'rating']
+
+class ReservationForm(forms.ModelForm):
+    class Meta:
+        model = Reservation
+        fields = ['user', 'tour']
+</code></pre>
+<p><strong>html – код отображения поля для ввода отзыва</strong></p>
+<pre><code>{% extends "base.html" %}
+
+{% block content %}
+    &lt;div class="container"&gt;
+    &lt;h2&gt;Write a Review for {{ tour.name }}&lt;/h2&gt;
+    &lt;form method="post"&gt;
+        {% csrf_token %}
+        {{ form.as_p }}
+        &lt;button type="submit"&gt;Submit Review&lt;/button&gt;
+    &lt;/form&gt;
+    &lt;/div&gt;
+{% endblock %}
+</code></pre>
+<p><strong>html – код отображения поля для брони</strong></p>
+<pre><code>{% extends "base.html" %}
+
+{% block content %}
+&lt;h2&gt;Reserve Tour - {{ tour.name }}&lt;/h2&gt;
+&lt;form method="post"&gt;
+    {% csrf_token %}
+    {{ form.as_p }}
+    &lt;button type="submit"&gt;Reserve&lt;/button&gt;
+&lt;/form&gt;
+&lt;a href="{% url 'tour_list' %}"&gt;Back to Tour List&lt;/a&gt;
+{% endblock %}
+</code></pre>
+<h2 id="views">views</h2>
+<pre><code>from .forms import ReviewForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.db.models import Count
+from .models import Country, Tour
+from django.shortcuts import render, redirect,  get_object_or_404
+from .models import Reservation
+from .forms import ReservationForm
+
+def tour_list(request):
+    tours = Tour.objects.all()
+    return render(request, '/Users/marinakuzmina/Documents/weblab2/tour_project/templates/tour_list.html', {'tours': tours})
+
+def tour_detail(request, tour_id):
+    tour = Tour.objects.get(pk=tour_id)
+    return render(request, '/Users/marinakuzmina/Documents/weblab2/tour_project/templates/tour_detail.html', {'tour': tour})
+
+def reserve_tour(request, tour_id):
+    if request.user.is_authenticated:
+        tour = Tour.objects.get(pk=tour_id)
+        reservation = Reservation(user=request.user, tour=tour)
+        reservation.save()
+        return redirect('user_profile')
+    else:
+        return redirect('login')
+
+
+def write_review(request, tour_id):
+    tour = Tour.objects.get(pk=tour_id)
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.tour = tour
+            review.user = request.user
+            review.save()
+            return redirect('tour_detail', tour_id=tour_id)
+    else:
+        form = ReviewForm()
+
+    return render(request, '/Users/marinakuzmina/Documents/weblab2/tour_project/templates/write_review.html', {'form': form, 'tour': tour})
+
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('tour_list')  # Перенаправление на главную страницу после регистрации
+    else:
+        form = UserCreationForm()
+    return render(request, '/Users/marinakuzmina/Documents/weblab2/tour_project/templates/registration/registration.html', {'form': form})
+
+def sold_tours_by_country(request):
+    sold_tours = Tour.objects.filter(is_sold=True)
+    return render(request, 'sold_tours_by_country.html', {'sold_tours': sold_tours})
+
+
+def user_profile(request):
+    if request.user.is_authenticated:
+        user_reservations = Reservation.objects.filter(user=request.user)
+
+        return render(request, 'user_profile.html', {'user_reservations': user_reservations})
+    else:
+        return redirect('login')
+
+def update_reservation(request, reservation_id):
+    try:
+        reservation = Reservation.objects.get(pk=reservation_id)
+    except Reservation.DoesNotExist:
+        return redirect('error_page')  # Обработка несуществующей резервации
+
+    if request.method == 'POST':
+        form = ReservationForm(request.POST, instance=reservation)  # Указываем экземпляр для обновления
+        if form.is_valid():
+            form.save()  # Сохраняем обновленную резервацию
+            return redirect('user_profile')  # Перенаправляем на страницу профиля или другую страницу
+    else:
+        form = ReservationForm(instance=reservation)  # Передаем экземпляр для отображения данных в форме
+
+    return render(request, 'update_reservation.html', {'form': form, 'reservation': reservation})
+
+def delete_reservation(request, reservation_id):
+    reservation = get_object_or_404(Reservation, pk=reservation_id, user=request.user)
+
+    if request.method == 'POST':
+        reservation.delete()
+        return redirect('user_profile')
+
+    return render(request, 'delete_reservation.html', {'reservation': reservation})
+</code></pre>
+<h2 id="urls">urls</h2>
+<pre><code>from django.urls import path
+from tour_project import views
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path('', views.tour_list, name='tour_list'),
+    path('tour/&lt;int:tour_id&gt;/', views.tour_detail, name='tour_detail'),
+    path('tour/&lt;int:tour_id&gt;/reserve/', views.reserve_tour, name='reserve_tour'),
+    path('tour/&lt;int:tour_id&gt;/write_review/', views.write_review, name='write_review'),
+    path('login/', auth_views.LoginView.as_view(), name='login'),
+    path('register/', views.register, name='register'),
+    path('profile/', views.user_profile, name='user_profile'),
+    # URL-маршруты для обновления и удаления резерваций
+    path('reservation/update/&lt;int:reservation_id&gt;/', views.update_reservation, name='update_reservation'),
+    path('reservation/delete/&lt;int:reservation_id&gt;/', views.delete_reservation, name='delete_reservation'),
+    path('sold_tours_by_country/', views.sold_tours_by_country, name='sold_tours_by_country'),
+]
+</code></pre>
+<h2 id="_1">Выводы</h2>
+<p>В рамках второй лабораторной работы "РЕАЛИЗАЦИЯ ПРОСТОГО САЙТА СРЕДСТВАМИ DJANGO" было изучено использование django: проектирование базы данных, создание представлений и основы html – верстки. </p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Lab1/" class="btn btn-neutral float-left" title="Лабораторная работа 1"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Lab3/" class="btn btn-neutral float-right" title="Лабораторная работа 3">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Lab1/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../Lab3/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

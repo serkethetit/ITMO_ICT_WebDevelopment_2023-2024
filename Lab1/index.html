@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Лабораторная работа 1 - Web-labs</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u041b\u0430\u0431\u043e\u0440\u0430\u0442\u043e\u0440\u043d\u0430\u044f \u0440\u0430\u0431\u043e\u0442\u0430 1";
+        var mkdocs_page_input_path = "Lab1.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Web-labs
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Лабораторная работа 1</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#intro">Intro</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#1_1">Задание 1</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#2">Задание 2</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#3">Задание 3</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#4">Задание 4</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#5">Задание 5</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Lab2/">Лабораторная работа 2</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Lab3/">Лабораторная работа 3</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Web-labs</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Лабораторная работа 1</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="1">Лабораторная работа 1</h1>
+<p><strong>РАБОТА С СОКЕТАМИ</strong></p>
+<h2 id="intro">Intro</h2>
+<p><strong>Цель:</strong> овладеть практическими навыками и умениями реализации web-серверов и
+использования сокетов.</p>
+<p><strong>Оборудование:</strong> компьютерный класс.</p>
+<p><strong>Программное обеспечение:</strong> Python 2.7-3.6, библиотеки Python: sys, socket.</p>
+<h2 id="1_1">Задание 1</h2>
+<p>Реализовать клиентскую и серверную часть приложения. Клиент отсылает серверу
+сообщение «Hello, server». Сообщение должно отразиться на стороне сервера.
+Сервер в ответ отсылает клиенту сообщение «Hello, client». Сообщение должно
+отобразиться у клиента. Обязательно использовать библиотеку socket. Реализовать с помощью протокола UDP.</p>
+<p><strong>Код:</strong></p>
+<pre><code># server.py
+import socket
+
+# Создаем UDP-сервер
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+server_address = ('localhost', 12345)
+server_socket.bind(server_address)
+
+while True:
+    print("Ожидание сообщения от клиента...")
+    data, client_address = server_socket.recvfrom(1024)
+    print(f"Получено сообщение от клиента: {data.decode()}")
+
+    response = "Hello, client"
+    server_socket.sendto(response.encode(), client_address)
+</code></pre>
+<ul>
+<li>Создается UDP-сервер с использованием библиотеки socket.</li>
+<li>Устанавливается адрес сервера (server_address), который указывает на локальный хост (localhost) и порт 12345.</li>
+<li>UDP-сокет привязывается к указанному адресу с помощью server_socket.bind(server_address).</li>
+<li>Затем сервер начинает бесконечный цикл (while True) и ожидает прихода сообщений от клиентов.</li>
+<li>Когда сервер получает сообщение от клиента, оно считывается с помощью server_socket.recvfrom(1024). Здесь 1024 - максимальный размер данных, которые можно получить за один раз.</li>
+<li>
+<p>После получения сообщения, сервер отправляет ответное сообщение ("Hello, client") обратно клиенту с помощью server_socket.sendto(response.encode(), client_address).</p>
+<pre><code># client.py
+import socket
+
+# Создаем UDP-клиента
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+server_address = ('localhost', 12345)
+
+message = "Hello, server"
+client_socket.sendto(message.encode(), server_address)
+
+data, server_address = client_socket.recvfrom(1024)
+print(f"Получено сообщение от сервера: {data.decode()}")
+
+client_socket.close()
+</code></pre>
+</li>
+<li>
+<p>Создается UDP-клиент с использованием библиотеки socket.</p>
+</li>
+<li>Устанавливается адрес сервера (server_address), который указывает на локальный хост (localhost) и порт 12345.</li>
+<li>Клиент создает сообщение (message), в данном случае "Hello, server", и отправляет его серверу с помощью client_socket.sendto(message.encode(), server_address).</li>
+<li>Затем клиент ожидает ответное сообщение от сервера, которое получается с помощью client_socket.recvfrom(1024).</li>
+<li>Полученное сообщение ("Hello, client") декодируется и выводится на экран.</li>
+<li>Наконец, клиент закрывает сокет с помощью client_socket.close().</li>
+</ul>
+<p><img alt="Текст с описанием картинки" src="../Lab1.1.png" /></p>
+<h2 id="2">Задание 2</h2>
+<p>Реализовать клиентскую и серверную часть приложения. Клиент запрашивает у
+сервера выполнение математической операции, параметры, которые вводятся с
+клавиатуры. Сервер обрабатывает полученные данные и возвращает результат
+клиенту. Варианты:</p>
+<p><strong>a. Теорема Пифагора</strong>
+b. Решение квадратного уравнения.
+c. Поиск площади трапеции.
+d. Поиск площади параллелограмма.</p>
+<p>Вариант выбирается в соответствии с порядковым номером в журнале. Пятый
+студент получает вариант 1 и т.д. Обязательно использовать библиотеку socket. Реализовать с помощью протокола TCP</p>
+<p><strong>Код:</strong></p>
+<pre><code># server.py
+import socket
+
+# Создаем TCP-сервер
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_address = ('localhost', 12345)
+server_socket.bind(server_address)
+
+server_socket.listen(1)
+print("Сервер запущен. Ожидание подключения клиента...")
+
+while True:
+    client_connection, client_address = server_socket.accept()
+    print(f"Подключение от клиента {client_address}")
+
+    # Принимаем данные от клиента
+    data = client_connection.recv(1024).decode()
+    print(f"Получено сообщение от клиента: {data}")
+
+    # Разбираем данные и выполняем математическую операцию (теорема Пифагора)
+    try:
+        a, b = map(float, data.split(','))
+        c = (a ** 2 + b ** 2) ** 0.5
+        response = f"Гипотенуза (c) равна {c}"
+    except ValueError:
+        response = "Ошибка: Некорректные данные"
+
+    # Отправляем результат клиенту
+    client_connection.send(response.encode())
+    client_connection.close()
+</code></pre>
+<ul>
+<li>Создается TCP-сервер с использованием библиотеки socket.</li>
+<li>Устанавливается адрес сервера (server_address), который указывает на локальный хост (localhost) и порт 12345.</li>
+<li>TCP-сокет привязывается к указанному адресу с помощью server_socket.bind(server_address).</li>
+<li>server_socket.listen(1) устанавливает сервер в режим ожидания подключения клиента с максимальным количеством ожидаемых клиентских соединений, равным 1.</li>
+<li>Затем сервер начинает бесконечный цикл (while True) и ожидает подключения клиента с помощью server_socket.accept(). Как только клиент подключается, создается новое соединение (client_connection) и получается адрес клиента (client_address).</li>
+<li>Далее сервер принимает данные от клиента с помощью client_connection.recv(1024).decode(), где 1024 - максимальный размер данных, которые можно получить за один раз.</li>
+<li>Полученные данные разбираются на два числа (предполагается, что клиент отправляет два числа, разделенных запятой), и на основе этих данных вычисляется гипотенуза по теореме Пифагора.</li>
+<li>Результат вычисления отправляется обратно клиенту с помощью client_connection.send(response.encode()).</li>
+<li>
+<p>Соединение с клиентом закрывается с помощью client_connection.close().</p>
+<pre><code># client.py
+import socket
+
+# Создаем TCP-клиента
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_address = ('localhost', 12345)
+
+try:
+    # Вводим данные с клавиатуры
+    a = float(input("Введите длину первого катета: "))
+    b = float(input("Введите длину второго катета: "))
+
+    # Отправляем данные серверу
+    message = f"{a},{b}"
+    client_socket.connect(server_address)
+    client_socket.send(message.encode())
+
+    # Получаем и выводим ответ от сервера
+    data = client_socket.recv(1024).decode()
+    print(f"Ответ от сервера: {data}")
+except ValueError:
+    print("Ошибка: Введите числовые значения для длин катетов.")
+finally:
+    client_socket.close()
+</code></pre>
+</li>
+<li>
+<p>Создается TCP-клиент с использованием библиотеки socket.</p>
+</li>
+<li>Устанавливается адрес сервера (server_address), который указывает на локальный хост (localhost) и порт 12345.</li>
+<li>Пользователю предлагается ввести длину двух катетов с клавиатуры.</li>
+<li>Введенные данные отправляются серверу в виде строки, где две длины катетов разделены запятой.</li>
+<li>Затем клиент ожидает ответа от сервера с помощью client_socket.recv(1024).decode() и выводит результат на экран.</li>
+</ul>
+<h2 id="3">Задание 3</h2>
+<p>Реализовать серверную часть приложения. Клиент подключается к серверу. В ответ
+клиент получает http-сообщение, содержащее html-страницу, которую сервер
+подгружает из файла index.html. Обязательно использовать библиотеку socket.</p>
+<p><strong>Код:</strong></p>
+<pre><code># server.py
+import socket
+
+# Загружаем содержимое HTML-файла
+with open("index.html", "r") as file:
+    html_content = file.read()
+
+# Создаем HTTP-сервер
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_address = ('localhost', 8080)
+server_socket.bind(server_address)
+
+server_socket.listen(1)
+print("Сервер запущен. Ожидание подключения клиента...")
+
+while True:
+    client_connection, client_address = server_socket.accept()
+    print(f"Подключение от клиента {client_address}")
+
+    http_response = f"HTTP/1.1 200 OK\r\nContent-Length: {len(html_content)}\r\n\r\n{html_content}"
+    client_connection.sendall(http_response.encode())
+    client_connection.close()
+</code></pre>
+<ul>
+<li>Сначала он загружает содержимое HTML-файла index.html в переменную html_content. Это делается с помощью открытия файла и чтения его содержимого.</li>
+<li>Затем создается TCP-сервер с использованием библиотеки socket.</li>
+<li>Устанавливается адрес сервера (server_address), который указывает на локальный хост (localhost) и порт 8080.</li>
+<li>TCP-сокет привязывается к указанному адресу с помощью server_socket.bind(server_address).</li>
+<li>server_socket.listen(1) устанавливает сервер в режим ожидания подключения клиента с максимальным количеством ожидаемых клиентских соединений, равным 1.</li>
+<li>Затем сервер начинает бесконечный цикл (while True) и ожидает подключения клиента с помощью server_socket.accept(). Как только клиент подключается, создается
+новое соединение (client_connection) и получается адрес клиента (client_address).</li>
+<li>Сервер формирует HTTP-ответ, включая статус "200 OK" и длину содержимого HTML-файла, и отправляет его клиенту с помощью client_connection.sendall(http_response.encode()).</li>
+<li>Соединение с клиентом закрывается с помощью client_connection.close().<pre><code># index.html
+&lt;!DOCTYPE html&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;My Love for Charles Leclerc&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            font-family: Montserrat, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+            padding: 100px;
+        }
+        h1 {
+            color: red;
+        }
+        p {
+            color: red;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;I love Charles Leclerc&lt;/h1&gt;
+    &lt;p&gt;Scuderia Ferrari&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+</li>
+</ul>
+<p><img alt="Текст с описанием картинки" src="../Lab1.3.png" /></p>
+<h2 id="4">Задание 4</h2>
+<p>Реализовать двухпользовательский или многопользовательский чат. Реализация многопользовательского часа позволяет получить максимальное количество баллов. Обязательно использовать библиотеку socket. Реализовать с помощью протокола TCP – 100% баллов, с помощью UDP – 80%. Обязательно использовать библиотеку threading. Для реализации с помощью UDP, thearding использовать для получения сообщений у клиента. Для применения с TCP необходимо запускать клиентские подключения <strong>и</strong> прием и отправку сообщений всем юзерам на сервере в потоках. Не забудьте сохранять юзеров, чтобы потом отправлять им сообщения.</p>
+<p><strong>Код:</strong></p>
+<pre><code># server.py
+import socket
+import threading
+
+# Создаем TCP-сервер
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_address = ('localhost', 12345)
+server_socket.bind(server_address)
+
+# Список клиентов и их соединений
+clients = []
+client_lock = threading.Lock()
+
+def broadcast_message(message, sender):
+    with client_lock:
+        for client in clients:
+            if client != sender:
+                try:
+                    client.send(message.encode())
+                except:
+                    # Если отправка сообщения не удалась, удаляем клиента из списка
+                    remove_client(client)
+
+def remove_client(client):
+    with client_lock:
+        if client in clients:
+            clients.remove(client)
+
+def client_handler(client_socket):
+    while True:
+        try:
+            message = client_socket.recv(1024).decode()
+            if not message:
+                break
+            broadcast_message(message, client_socket)
+        except:
+            pass  # Обработка ошибок
+
+    # Удаляем клиента из списка и закрываем соединение
+    remove_client(client_socket)
+    client_socket.close()
+
+server_socket.listen(5)
+print("Сервер чата запущен. Ожидание подключения клиентов...")
+
+while True:
+    client_connection, client_address = server_socket.accept()
+    print(f"Подключение от {client_address}")
+
+    with client_lock:
+        clients.append(client_connection)
+
+    # Создаем отдельный поток для обработки клиента
+    client_thread = threading.Thread(target=client_handler, args=(client_connection,))
+    client_thread.start()
+</code></pre>
+<ul>
+<li>Создается TCP-сервер с использованием библиотеки socket.</li>
+<li>Устанавливается адрес сервера (server_address), который указывает на локальный хост (localhost) и порт 12345.</li>
+<li>TCP-сокет привязывается к указанному адресу с помощью server_socket.bind(server_address).</li>
+<li>Создается список clients для отслеживания всех клиентских соединений.</li>
+<li>Создается объект блокировки (client_lock) для безопасного доступа к списку клиентов из нескольких потоков.</li>
+<li>Определяется функция broadcast_message(message, sender), которая отправляет сообщение всем клиентам, кроме отправителя.</li>
+<li>Определяется функция remove_client(client), которая удаляет клиента из списка клиентов.</li>
+<li>Определяется функция client_handler(client_socket), которая обрабатывает входящие сообщения от клиента и передает их другим клиентам.</li>
+<li>Сервер начинает слушать подключения с максимальной длиной очереди ожидания равной 5 с помощью server_socket.listen(5).</li>
+<li>Затем сервер начинает бесконечный цикл (while True) и ожидает подключения клиентов с помощью server_socket.accept(). Как только клиент подключается, его сокет добавляется в список clients.</li>
+<li>
+<p>Для каждого подключенного клиента создается отдельный поток (client_thread) для обработки сообщений от него.</p>
+<pre><code># client.py
+import socket
+import threading
+
+# Создаем TCP-клиента
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_address = ('localhost', 12345)
+
+# Вводим имя пользователя
+client_name = input("Введите ваше имя: ")
+
+client_socket.connect(server_address)
+
+def receive_messages():
+    while True:
+        try:
+            message = client_socket.recv(1024).decode()
+            print(message)
+        except Exception as e:
+            print(f"Ошибка: {e}")
+            break
+
+receive_thread = threading.Thread(target=receive_messages)
+receive_thread.start()
+
+while True:
+    message = input()
+    if message.lower() == "exit":
+        break
+
+    client_socket.send(f"{client_name}: {message}".encode())
+
+client_socket.close()
+</code></pre>
+</li>
+<li>
+<p>Создается TCP-клиент с использованием библиотеки socket.</p>
+</li>
+<li>Устанавливается адрес сервера (server_address), который указывает на локальный хост (localhost) и порт 12345.</li>
+<li>Пользователю предлагается ввести имя пользователя.</li>
+<li>Клиент подключается к серверу с помощью client_socket.connect(server_address).</li>
+<li>Запускается отдельный поток (receive_thread), который слушает входящие сообщения от сервера и выводит их на экран.</li>
+<li>Основной поток клиента ожидает ввода сообщений пользователя. Когда пользователь отправляет сообщение, оно отправляется на сервер.</li>
+</ul>
+<p><img alt="Текст с описанием картинки" src="../Lab1.4.png" />
+<img alt="Текст с описанием картинки" src="../Lab1.4.1.png" /></p>
+<h2 id="5">Задание 5</h2>
+<p>Необходимо написать простой web-сервер для обработки GET и POST http
+запросов средствами Python и библиотеки socket.
+Задание: сделать сервер, который может:
+- Принять и записать информацию о дисциплине и оценке по дисциплине.
+- Отдать информацию обо всех оценах по дсициплине в виде html-страницы.</p>
+<p><strong>Код:</strong></p>
+<pre><code># server.py
+import socket
+from email.parser import Parser
+from functools import lru_cache
+from urllib.parse import parse_qs, urlparse
+MAX_LINE = 64 * 1024
+MAX_HEADERS = 100
+
+class MyHTTPServer:
+
+    def __init__(self, method, target, version, headers, rfile):
+        self.method = method
+        self.target = target
+        self.version = version
+        self.headers = headers
+        self.rfile = rfile
+
+    @property
+    def path(self):
+        return self.parsed_url.path
+
+    @property
+    def body(self):
+        size = self.headers.get('Content-Length')
+        if not size:
+            return None
+        content = self.rfile.read(int(size))
+        return content.decode('utf-8')
+
+    @property
+    @lru_cache(maxsize=None)
+    def parsed_url(self):
+        return urlparse(self.target)
+
+    @property
+    @lru_cache(maxsize=None)
+    def query_parameters(self):
+        return parse_qs(self.parsed_url.query)
+
+    @property
+    @lru_cache(maxsize=None)
+    def form_parameters(self):
+        return parse_qs(self.body)
+
+
+class CustomResponse:
+    def __init__(self, status, reason, headers=None, body=None):
+        self.status = status
+        self.reason = reason
+        self.headers = headers
+        self.body = body
+
+
+class HTTPServer:
+    def __init__(self, server_address):
+        self.server_address = server_address
+        self.connection = None
+        self.grades_data = {}  # {subject: [grades]}
+
+    def start(self):
+        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        try:
+            server_socket.bind(self.server_address)
+            server_socket.listen(10)
+            print("Server is running...")
+            while True:
+                client_socket, _ = server_socket.accept()
+                try:
+                    self.handle_client(client_socket)
+                except Exception as e:
+                    print('Connection failed', e)
+        finally:
+            server_socket.close()
+            print("Server stopped")
+
+    def handle_client(self, conn):
+        try:
+            request = self.parse_request(conn)
+            response = self.handle_request(request)
+            self.send_response(conn, response)
+        except ConnectionResetError:
+            conn = None
+        except Exception as e:
+            print("Error", e)
+        if conn:
+            conn.close()
+
+    def parse_request(self, conn):
+        rfile = conn.makefile('rb')
+        raw_request = rfile.readline(MAX_LINE + 1)
+        if len(raw_request) &gt; MAX_LINE:
+            raise Exception('Request line is too long')
+
+        request_line = str(raw_request, 'iso-8859-1')
+        request_line = request_line.rstrip('\r\n')
+        method, target, version = request_line.split()
+        if version != 'HTTP/1.1':
+            raise Exception('Unexpected HTTP version')
+
+        headers = self.parse_headers(rfile)
+        host = headers.get('Host')
+        if not host:
+            raise Exception('Bad request')
+
+        return MyHTTPServer(method, target, version, headers, rfile)
+
+    @staticmethod
+    def parse_headers(rfile):
+        headers = []
+        while True:
+            line = rfile.readline(MAX_LINE + 1)
+            if len(line) &gt; MAX_LINE:
+                raise Exception('Header line is too long')
+
+            if line in (b'\r\n', b'\n', b''):
+                break
+
+            headers.append(line)
+            if len(headers) &gt; MAX_HEADERS:
+                raise Exception('Too many headers')
+
+        parsed_headers = b''.join(headers).decode('iso-8859-1')
+        return Parser().parsestr(parsed_headers)
+
+    def handle_request(self, request):
+        if request.path == '/' and request.method == 'POST':
+            return self.handle_post(request)
+        if request.method == 'GET':
+            if request.path == '/add_grade':
+                body = """&lt;!DOCTYPE html&gt;
+                        &lt;html lang="ru"&gt;
+                        &lt;style&gt;
+                            body {
+                                font-family: Montserrat, sans-serif;
+                                background-color: #e3ecfa;
+                                text-align: center;
+                                padding: 200px;
+                            }
+                            h2 {
+                                color: #8ab2f2;
+                            }
+                            p {
+                                color: #666;
+                                font-size: 20px;
+                            }
+                        &lt;/style&gt;
+                        &lt;head&gt;
+                            &lt;meta charset="UTF-8"&gt;
+                            &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+                        &lt;/head&gt;
+                        &lt;script&gt;
+                            // JavaScript скрипты здесь
+                        &lt;/script&gt;
+                        &lt;body&gt;
+                            &lt;h2&gt;ENTER THE GRADE&lt;/h2&gt;
+                            &lt;form method="POST" action="/"&gt;
+                                &lt;input type="text" id="subject" name="subject" placeholder="Subject"&gt;
+                                &lt;input type="text" id="grade" name="grade" placeholder="Grade"&gt;
+                                &lt;input type="submit" value="Send" style="background-color: #8ab2f2; color: #fff; padding: 10px 20px; border: none; cursor: pointer;border-radius: 20px;"&gt;
+                            &lt;/form&gt;
+                            &lt;form action="/"&gt;
+                                &lt;input type="submit" value="To the main page"/ style="background-color: #8ab2f2; color: #fff; padding: 10px 20px; border: none; cursor: pointer;border-radius: 20px;"&gt;
+                            &lt;/form&gt;
+                        &lt;/body&gt;
+                        """
+                return self.handle_get(body)
+            elif request.path == '/':
+                return self.handle_get()
+        content = """&lt;!DOCTYPE html&gt;
+                &lt;html lang="ru"&gt;
+                &lt;style&gt;
+                    body {
+                        font-family: Montserrat, sans-serif;
+                        background-color: #e3ecfa;
+                        text-align: center;
+                        padding: 200px;
+                    }
+                    h2 {
+                        color: #8ab2f2;
+                    }
+                    p {
+                        color: #666;
+                        font-size: 20px;
+                    }
+                &lt;/style&gt;
+                &lt;body&gt;
+                    &lt;h2&gt;Error 404&lt;/h2&gt;
+                    &lt;form action="/"&gt;
+                        &lt;input type="submit" value="To the main page"/ style="background-color: #8ab2f2; color: #fff; padding: 10px 20px; border: none; cursor: pointer;border-radius: 20px;"&gt;
+                    &lt;/form&gt;
+                &lt;/body&gt;
+                &lt;/html&gt;
+                """
+        return self.handle_get(content)
+
+    def handle_get(self, body=None):
+        content_type = 'text/html; charset=utf-8'
+        if body is None:
+            body = """
+                &lt;!DOCTYPE html&gt;
+                &lt;html lang="ru"&gt;
+                &lt;style&gt;
+                    body {
+                        font-family: Montserrat, sans-serif;
+                        background-color: #e3ecfa;
+                        text-align: center;
+                        padding: 200px;
+                    }
+                    h2 {
+                        color: #8ab2f2;
+                    }
+                    p {
+                        color: #8ab2f2;
+                        font-size: 20px;
+                    }
+                &lt;/style&gt;
+                &lt;head&gt;
+                    &lt;meta charset="UTF-8"&gt;
+                    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+                &lt;/head&gt;
+                &lt;body&gt;
+                    &lt;h2&gt;YOUR GRADES&lt;/h2&gt;
+                    &lt;table&gt;
+                        &lt;tr&gt;
+                            &lt;th&gt;Subject&lt;/th&gt;
+                            &lt;th&gt;Grade&lt;/th&gt;
+                        &lt;/tr&gt;
+                """
+            for subject, grades in self.grades_data.items():
+                for grade in grades:
+                    body += f"""
+                            &lt;tr&gt;
+                                &lt;td&gt;{subject}&lt;/td&gt;
+                                &lt;td&gt;{grade}&lt;/td&gt;
+                            &lt;/tr&gt;
+                        """
+
+            body += """
+                    &lt;/table&gt;
+                    &lt;form action="/add_grade"&gt;
+                        &lt;input type="submit" value="Add grade" style="background-color: #8ab2f2; color: #fff; padding: 10px 20px; border: none; cursor: pointer;border-radius: 20px;"&gt;
+                    &lt;/form&gt;
+                &lt;/body&gt;
+                &lt;/html&gt;
+                """
+
+        body = body.encode('utf-8')
+        headers = [('Content-Type', content_type),
+                ('Content-Length', len(body))]
+        return CustomResponse(200, 'OK', headers, body)
+
+    def handle_post(self, request):
+        subject = request.form_parameters['subject'][0]
+        grade = request.form_parameters['grade'][0]
+        try:
+            self.grades_data.setdefault(subject, []).append(grade)
+        except KeyError:
+            self.grades_data[subject] = [grade]
+        return self.handle_get()
+
+    @staticmethod
+    def send_response(conn, response):
+        wfile = conn.makefile('wb')
+        status_line = f'HTTP/1.1 {response.status} {response.reason}\r\n'
+        wfile.write(status_line.encode('iso-8859-1'))
+
+        if response.headers:
+            for (key, value) in response.headers:
+                header_line = f'{key}: {value}\r\n'
+                wfile.write(header_line.encode('iso-8859-1'))
+
+        wfile.write(b'\r\n')
+
+        if response.body:
+            wfile.write(response.body)
+
+        wfile.flush()
+        wfile.close()
+
+
+if __name__ == '__main__':
+    server_address = ('127.0.0.1', 8080)
+    http_server = HTTPServer(server_address)
+    http_server.start()
+</code></pre>
+<p><img alt="Текст с описанием картинки" src="../Lab1.5.png" /></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Lab2/" class="btn btn-neutral float-right" title="Лабораторная работа 2">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+      <span><a href="../Lab2/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
