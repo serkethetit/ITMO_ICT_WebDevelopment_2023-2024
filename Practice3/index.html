@@ -74,7 +74,7 @@ if (is_top_frame) { $('body').addClass('wm-top-page'); }
 
     
 
-    <h2 id="31">Практика 3.1</h2>
+    <h3 id="31">Практика 3.1</h3>
 <p>Напишите запрос на создание 6-7 новых автовладельцев и 5-6 автомобилей, каждому автовладельцу назначьте удостоверение и от 1 до 3 автомобилей. Задание можете выполнить либо в интерактивном режиме интерпретатора, либо в отдельном python-файле. Результатом должны стать запросы и отображение созданных объектов. </p>
 <p>Скрипт create_data.py, размещаем его рядом с manage.py:</p>
 <pre><code>from django.utils import timezone
@@ -141,7 +141,7 @@ print("Скрипт успешно завершен.")
 <p>Таблицы после выполнения скрипта:
 <img alt="Таблицы после выполнения скрипта" src="../img/Practice3.5.png" />
 <img alt="Таблицы после выполнения скрипта" src="../img/Practice3.6.png" /></p>
-<h2 id="32">Практика 3.2</h2>
+<h3 id="32">Практика 3.2</h3>
 <p>По созданным в пр.1 данным написать следующие запросы на фильтрацию:</p>
 <p>Выведете все машины марки “BMW”:</p>
 <pre><code>cars = Car.objects.filter(brand='BMW')
@@ -166,7 +166,7 @@ driver_licence = DriverLicence.objects.get(owner=random_owner)
 <pre><code>owners_2010 = Ownership.objects.filter(date_beginning__year=2010).values('driver__first_name', 'driver__last_name').distinct()
 </code></pre>
 <p><img alt="5" src="../img/Practice3.11.png" /></p>
-<h2 id="33">Практика 3.3</h2>
+<h3 id="33">Практика 3.3</h3>
 <p>Необходимо реализовать следующие запросы c применением описанных методов:</p>
 <p>Вывод даты выдачи самого старшего водительского удостоверения:</p>
 <pre><code>oldest_license_date = DriverLicence.objects.order_by('date_of_release').values('date_of_release').first()
