@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    <link rel="shortcut icon" href="../img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Practice3 - Web-labs</title>
+    <link href="../css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="../css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="../css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap-3.3.7.min.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '..';
+      var is_top_frame = false;
+        
+        var pageToc = [
+          {title: "\u041f\u0440\u0430\u043a\u0442\u0438\u043a\u0430 3.1", url: "#_top", children: [
+          ]},
+          {title: "\u041f\u0440\u0430\u043a\u0442\u0438\u043a\u0430 3.2", url: "#32", children: [
+          ]},
+          {title: "\u041f\u0440\u0430\u043a\u0442\u0438\u043a\u0430 3.3", url: "#33", children: [
+          ]},
+        ];
+
+    </script>
+    <script src="../js/base.js"></script>
+      <script src="../search/main.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav">
+      <a href="../Lab3/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../Lab3/" class="btn btn-xs btn-link">
+        Lab3
+      </a>
+    </div>
+    
+  </div>
+
+    
+
+    <h2 id="31">Практика 3.1</h2>
+<p>Напишите запрос на создание 6-7 новых автовладельцев и 5-6 автомобилей, каждому автовладельцу назначьте удостоверение и от 1 до 3 автомобилей. Задание можете выполнить либо в интерактивном режиме интерпретатора, либо в отдельном python-файле. Результатом должны стать запросы и отображение созданных объектов. </p>
+<p>Скрипт create_data.py, размещаем его рядом с manage.py:</p>
+<pre><code>from django.utils import timezone
+from project_first_app.models import Driver, DriverLicence, Car, Ownership
+
+drivers_data = [
+    {"username": "driver111", "last_name": "Russell", "first_name": "George", "date_of_birth": timezone.now()},
+    {"username": "driver222", "last_name": "Rodríguez", "first_name": "Ricardo", "date_of_birth": timezone.now()},
+    {"username": "driver333", "last_name": "Sainz", "first_name": "Carlos", "date_of_birth": timezone.now()},
+    {"username": "driver444", "last_name": "Hamilton", "first_name": "Lewis", "date_of_birth": timezone.now()},
+    {"username": "driver555", "last_name": "Marko", "first_name": "Helmut", "date_of_birth": timezone.now()},
+    {"username": "driver666", "last_name": "Leclerc", "first_name": "Charles", "date_of_birth": timezone.now()},
+]
+
+created_drivers = []
+
+for data in drivers_data:
+    driver = Driver.objects.create_user(**data)
+    created_drivers.append(driver)
+    print(f"Создан водитель: {driver.username}")
+
+# Создаем автомобили
+cars_data = [
+    {"number": "YCE518", "brand": "BMW", "car_model": "7 Series", "color": "Black"},
+    {"number": "UGH672", "brand": "Janguar", "car_model": "XJ", "color": "Blue"},
+    {"number": "BCR629", "brand": "Skoda", "car_model": "Felicia", "color": "Pink"},
+    {"number": "MNB576", "brand": "Alfa Romeo", "car_model": "Giulia", "color": "Black"},
+    {"number": "NLI910", "brand": "Audi", "car_model": "R8", "color": "Yellow"},
+]
+
+created_cars = []
+
+for data in cars_data:
+    car = Car.objects.create(**data)
+    created_cars.append(car)
+    print(f"Создан автомобиль: {car.number}")
+
+# Создаем водительские удостоверения
+licences_data = [
+    {"owner": driver, "number": str(i + 1), "licence_type": chr(ord("A") + i), "date_of_release": timezone.now()}
+    for i, driver in enumerate(created_drivers)
+]
+
+for data in licences_data:
+    DriverLicence.objects.create(**data)
+
+# Создаем владение
+ownership_data = [
+    {"driver": driver, "car": car, "date_beginning": timezone.now(), "date_end": timezone.now()}
+    for driver, car in zip(created_drivers, created_cars)
+]
+
+for data in ownership_data:
+    Ownership.objects.create(**data)
+
+print("Скрипт успешно завершен.")
+</code></pre>
+<p>Результаты выполнения:</p>
+<p>Таблицы до выполнения скрипта:
+<img alt="Таблицы до выполнения скрипта" src="../img/Practice3.1.png" />
+<img alt="Таблицы до выполнения скрипта" src="../img/Practice3.3.png" /></p>
+<p>Выполнение скрипта:
+<img alt="Выполнение скрипта" src="../img/Practice3.4.png" /></p>
+<p>Таблицы после выполнения скрипта:
+<img alt="Таблицы после выполнения скрипта" src="../img/Practice3.5.png" />
+<img alt="Таблицы после выполнения скрипта" src="../img/Practice3.6.png" /></p>
+<h2 id="32">Практика 3.2</h2>
+<p>По созданным в пр.1 данным написать следующие запросы на фильтрацию:</p>
+<p>Выведете все машины марки “BMW”:</p>
+<pre><code>cars = Car.objects.filter(brand='BMW')
+</code></pre>
+<p><img alt="1" src="../img/Practice3.7.png" /></p>
+<p>Найти всех водителей с именем “Charles”:</p>
+<pre><code>charles_drivers = Driver.objects.filter(user__first_name='Charles')
+</code></pre>
+<p><img alt="2" src="../img/Practice3.8.png" /></p>
+<p>Взяв любого случайного владельца получить его id, и по этому id получить экземпляр удостоверения в виде объекта модели:</p>
+<pre><code>import random
+
+random_owner = Driver.objects.all().order_by('?').first()
+driver_licence = DriverLicence.objects.get(owner=random_owner)
+</code></pre>
+<p><img alt="3" src="../img/Practice3.9.png" /></p>
+<p>Вывести всех владельцев красных машин:</p>
+<pre><code> blue_car_owners = Ownership.objects.filter(car__color='Blue').values('driver__first_name', 'driver__last_name').distinct()
+</code></pre>
+<p><img alt="4" src="../img/Practice3.10.png" /></p>
+<p>Найти всех владельцев, чей год владения машиной начинается с 2010:</p>
+<pre><code>owners_2010 = Ownership.objects.filter(date_beginning__year=2010).values('driver__first_name', 'driver__last_name').distinct()
+</code></pre>
+<p><img alt="5" src="../img/Practice3.11.png" /></p>
+<h2 id="33">Практика 3.3</h2>
+<p>Необходимо реализовать следующие запросы c применением описанных методов:</p>
+<p>Вывод даты выдачи самого старшего водительского удостоверения:</p>
+<pre><code>oldest_license_date = DriverLicence.objects.order_by('date_of_release').values('date_of_release').first()
+</code></pre>
+<p><img alt="6" src="../img/Practice3.12.png" /></p>
+<p>Укажите самую позднюю дату владения машиной, имеющую какую-то из существующих моделей в вашей базе:</p>
+<pre><code>latest_ownership_date = Ownership.objects.exclude(date_end=None).order_by('-date_end').values('date_end').first()
+</code></pre>
+<p><img alt="7" src="../img/Practice3.13.png" /></p>
+<p>Выведите количество машин для каждого водителя:</p>
+<pre><code>from django.db.models import Count
+cars_per_driver = Ownership.objects.values('driver__first_name', 'driver__last_name').annotate(num_cars=Count('car'))
+</code></pre>
+<p><img alt="8" src="../img/Practice3.14.png" /></p>
+<p>Подсчитайте количество машин каждой марки:</p>
+<pre><code>cars_per_brand = Car.objects.values('brand').annotate(num_cars=Count('id'))
+</code></pre>
+<p><img alt="9" src="../img/Practice3.15.png" /></p>
+<p>Отсортируйте всех автовладельцев по дате выдачи удостоверения:</p>
+<pre><code>sorted_drivers = Driver.objects.order_by('driverlicence__date_of_release').distinct()
+</code></pre>
+<p><img alt="10" src="../img/Practice3.16.png" /></p>
+
+  <br>
+    
+
+    
+    
+      
+    
+
+  <div class="row wm-article-nav-buttons" role="navigation" aria-label="navigation">
+    
+    <div class="wm-article-nav">
+      <a href="../Lab3/" class="btn btn-xs btn-default pull-left">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        Previous</a><a href="../Lab3/" class="btn btn-xs btn-link">
+        Lab3
+      </a>
+    </div>
+    
+  </div>
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="None">Windmill Dark</a> theme by None (noraj).</p>
+</footer>
+
+</body>
+</html>
